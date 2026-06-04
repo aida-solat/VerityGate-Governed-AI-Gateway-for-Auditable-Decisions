@@ -496,7 +496,7 @@ export default function Dashboard() {
           <p>
             Built &amp; designed by{" "}
             <a
-              href="https://github.com/deciwa"
+              href="https://github.com/aida-solat"
               target="_blank"
               rel="noreferrer"
               className="font-medium text-slate-400 hover:text-accent"

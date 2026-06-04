@@ -1,6 +1,6 @@
 # Default owners for everything in the repo.
-* @deciwa
+* @aida-solat
 
 # Governance core — review with extra care; deterministic guarantees live here.
-/backend/app/governance/ @deciwa
-/backend/app/evaluation/ @deciwa
+/backend/app/governance/ @aida-solat
+/backend/app/evaluation/ @aida-solat

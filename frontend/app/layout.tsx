@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/use-toast";
 export const metadata: Metadata = {
   title: "VerityGate — Governed AI Gateway",
   description: "Route models. Verify evidence. Govern decisions.",
-  authors: [{ name: "Deciwa", url: "https://github.com/deciwa" }],
+  authors: [{ name: "Deciwa", url: "https://github.com/aida-solat" }],
   creator: "Deciwa",
 };
 
