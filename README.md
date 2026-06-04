@@ -2,7 +2,7 @@
 
 > **Route models. Verify evidence. Govern decisions.**
 
-[![CI](https://github.com/aida-solat/veritygate/actions/workflows/ci.yml/badge.svg)](https://github.com/aida-solat/veritygate/actions/workflows/ci.yml)
+[![CI](https://github.com/aida-solat/VerityGate-Governed-AI-Gateway-for-Auditable-Decisions/actions/workflows/ci.yml/badge.svg)](https://github.com/aida-solat/VerityGate-Governed-AI-Gateway-for-Auditable-Decisions/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-3776AB.svg?logo=python&logoColor=white)](backend/environment.yml)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14-000000.svg?logo=next.js&logoColor=white)](frontend/package.json)

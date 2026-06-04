@@ -32,5 +32,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   queue, ledger view, and chain-verification status.
 - pytest suite and GitHub Actions CI (micromamba backend, pnpm frontend).
 
-[Unreleased]: https://github.com/aida-solat/veritygate/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/aida-solat/veritygate/releases/tag/v0.1.0
+[Unreleased]: https://github.com/aida-solat/VerityGate-Governed-AI-Gateway-for-Auditable-Decisions/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/aida-solat/VerityGate-Governed-AI-Gateway-for-Auditable-Decisions/releases/tag/v0.1.0
