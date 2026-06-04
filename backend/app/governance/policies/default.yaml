@@ -1,0 +1,13 @@
+domain: default
+description: >-
+  Baseline governance policy applied when no domain-specific policy matches.
+min_faithfulness: 0.6
+min_citation_coverage: 0.5
+min_policy_score: 0.7
+require_citations: false
+banned_claims:
+  - guaranteed
+  - 100% safe
+  - no risk
+  - always approve
+  - definitely will

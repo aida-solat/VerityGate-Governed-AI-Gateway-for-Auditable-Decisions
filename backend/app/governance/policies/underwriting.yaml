@@ -1,0 +1,16 @@
+domain: underwriting
+description: >-
+  Consumer-credit underwriting. Fair-lending sensitive: decisions must be
+  grounded in cited policy and never promise an outcome. Stricter thresholds
+  and citations are mandatory.
+min_faithfulness: 0.7
+min_citation_coverage: 0.6
+min_policy_score: 0.8
+require_citations: true
+banned_claims:
+  - guaranteed approval
+  - guaranteed
+  - instant approval
+  - no risk
+  - always approve
+  - credit repair

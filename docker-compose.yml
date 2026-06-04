@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8009:8009"
+    environment:
+      - DATABASE_URL=sqlite:///./veritygate.db
+      - ROUTING_STRATEGY=risk
+      # - OPENAI_API_KEY=...
+      # - ANTHROPIC_API_KEY=...
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3009:3009"
+    environment:
+      - BACKEND_URL=http://backend:8009
+    depends_on:
+      - backend

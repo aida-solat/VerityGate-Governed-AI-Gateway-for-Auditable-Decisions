@@ -1,0 +1,15 @@
+domain: logistics
+description: >-
+  Cold-chain pharmaceutical logistics under GDP guidelines. Temperature
+  excursions and quality holds must be respected; advice must cite the
+  governing procedure.
+min_faithfulness: 0.65
+min_citation_coverage: 0.55
+min_policy_score: 0.75
+require_citations: true
+banned_claims:
+  - guaranteed
+  - no risk
+  - safe to ship
+  - ignore excursion
+  - override quality hold
