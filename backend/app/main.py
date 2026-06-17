@@ -9,14 +9,16 @@ from . import __version__
 from .api import complete, ledger, policies, review
 from .api.deps import _router, _store
 from .config import get_settings
-from .db import init_db
+from .db import engine, init_db
+from .telemetry import setup_telemetry
 
 settings = get_settings()
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(application: FastAPI):
     init_db()
+    setup_telemetry(app=application, engine=engine)
     yield
 
 

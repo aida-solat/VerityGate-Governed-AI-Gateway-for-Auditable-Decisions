@@ -1,13 +1,22 @@
 services:
+  # --- Application ---
   backend:
     build: ./backend
     ports:
       - "8009:8009"
     environment:
-      - DATABASE_URL=sqlite:///./veritygate.db
+      - DATABASE_URL=postgresql+psycopg://veritygate:veritygate@postgres:5432/veritygate
+      - REDIS_URL=redis://redis:6379/0
       - ROUTING_STRATEGY=risk
+      - OTEL_ENABLED=true
+      - OTEL_EXPORTER_ENDPOINT=http://otel-collector:4317
       # - OPENAI_API_KEY=...
       # - ANTHROPIC_API_KEY=...
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
@@ -17,3 +26,65 @@ services:
       - BACKEND_URL=http://backend:8009
     depends_on:
       - backend
+
+  # --- Data stores ---
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: veritygate
+      POSTGRES_PASSWORD: veritygate
+      POSTGRES_DB: veritygate
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U veritygate"]
+      interval: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+
+  # --- Observability ---
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.108.0
+    command: ["--config=/etc/otel-config.yaml"]
+    volumes:
+      - ./infra/otel/otel-config.yaml:/etc/otel-config.yaml:ro
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+      - "8888:8888" # Collector metrics
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - backend
+      - otel-collector
+
+  grafana:
+    image: grafana/grafana:11.2.2
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+    volumes:
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+
+volumes:
+  pg_data:

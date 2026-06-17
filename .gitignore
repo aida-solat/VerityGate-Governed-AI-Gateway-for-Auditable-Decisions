@@ -12,5 +12,11 @@ node_modules/
 out/
 npm-debug.log*
 
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
 # OS
 .DS_Store

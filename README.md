@@ -10,12 +10,7 @@
 
 _An AI-platform / LLMOps reference architecture — **built & designed by [Deciwa](#built--designed-by-deciwa)**._
 
-VerityGate sits between your application and your LLM/ML providers, but it is
-**not** just a router. Its job is to turn every AI output into an
-**auditable decision artifact**: routed by risk, grounded in retrieved
-evidence, scored by an evaluation pipeline, passed through **deterministic
-governance gates**, and recorded in a **tamper-evident decision ledger** with
-human-in-the-loop review.
+VerityGate is a governed AI gateway for auditable LLM decisions. It routes requests across providers, verifies retrieval quality, applies deterministic policy gates, records tamper-evident decision artifacts, and ships with production-ready AWS/Azure infrastructure, observability, CI/CD, and threat modeling.
 
 The core principle:
 
@@ -254,7 +249,36 @@ pnpm build
 
 GitHub Actions (`.github/workflows/ci.yml`) runs the same toolchain on every
 push/PR: **micromamba** for the backend tests and **pnpm** for the frontend
-lint + build.
+lint + build. On merge to `main`, the CI/CD pipeline builds container images,
+pushes to GHCR, and deploys to production.
+
+---
+
+## Production Infrastructure
+
+VerityGate ships with production-grade infrastructure:
+
+| Layer             | Technology                                                                              |
+| ----------------- | --------------------------------------------------------------------------------------- |
+| **Compute**       | AWS ECS/Fargate _or_ Azure Container Apps (Terraform IaC for both)                      |
+| **Database**      | Postgres 16 + pgvector (RDS / Azure Flexible Server)                                    |
+| **Cache**         | Redis 7 (ElastiCache / Azure Cache) — scope-partitioned semantic cache                  |
+| **Observability** | OpenTelemetry → Prometheus → Grafana (auto-provisioned dashboard)                       |
+| **Logging**       | CloudWatch / Log Analytics + OTEL Collector                                             |
+| **CI/CD**         | GitHub Actions: test → build → push GHCR → deploy                                       |
+| **Security**      | TLS at ingress, secrets in vault, private subnets, [threat model](docs/THREAT_MODEL.md) |
+
+```bash
+# Full production stack locally:
+docker compose up --build
+# → Backend :8009  Frontend :3009  Prometheus :9090  Grafana :3000
+```
+
+See:
+
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system design + production deployment diagram
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) — step-by-step AWS / Azure / docker-compose guide
+- [`docs/THREAT_MODEL.md`](docs/THREAT_MODEL.md) — STRIDE-based threat analysis
 
 ---
 

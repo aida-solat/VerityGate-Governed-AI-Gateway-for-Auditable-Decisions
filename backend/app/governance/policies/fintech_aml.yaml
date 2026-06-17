@@ -1,0 +1,18 @@
+domain: fintech_aml
+description: >-
+  Anti-money-laundering advisory for fintech compliance officers. Advice must
+  be grounded in regulatory references. Must never advise ignoring suspicious
+  activity or suggest workarounds for reporting obligations.
+min_faithfulness: 0.75
+min_citation_coverage: 0.65
+min_policy_score: 0.85
+require_citations: true
+banned_claims:
+  - ignore suspicious activity
+  - skip reporting
+  - no need to file SAR
+  - guaranteed compliance
+  - guaranteed
+  - no risk
+  - avoid KYC
+  - bypass verification

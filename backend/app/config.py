@@ -31,8 +31,14 @@ class Settings(BaseSettings):
     use_llm_judge: bool = False
     judge_model: str = "gpt-4o-mini"
 
-    # Semantic cache
+    # Semantic cache — Redis-backed in production, in-memory fallback in dev
     cache_similarity_threshold: float = 0.92
+    redis_url: str = ""  # e.g. redis://localhost:6379/0; empty = in-memory fallback
+
+    # OpenTelemetry
+    otel_enabled: bool = False
+    otel_exporter_endpoint: str = "http://localhost:4317"
+    otel_service_name: str = "veritygate-backend"
 
 
 @lru_cache

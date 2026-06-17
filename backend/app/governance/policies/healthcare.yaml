@@ -1,0 +1,18 @@
+domain: healthcare
+description: >-
+  Clinical decision support. High bar for faithfulness because patient safety
+  depends on cited evidence. Must never recommend specific drugs without
+  citing a guideline, and must never guarantee outcomes.
+min_faithfulness: 0.8
+min_citation_coverage: 0.7
+min_policy_score: 0.85
+require_citations: true
+banned_claims:
+  - guaranteed cure
+  - guaranteed
+  - 100% effective
+  - no side effects
+  - stop your medication
+  - diagnose yourself
+  - always safe
+  - no risk

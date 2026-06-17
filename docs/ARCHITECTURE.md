@@ -9,7 +9,7 @@ idea is simple and load-bearing:
 > maker.** The model may explain and even score, but a deterministic gate —
 > not the model — decides whether a high-risk output is approved.
 
-## System overview
+## System overview (development)
 
 ```mermaid
 flowchart TB
@@ -39,6 +39,52 @@ flowchart TB
     POLICY --> EVAL
     EVAL --> GATE --> LEDGER
     LEDGER -->|/ledger, /ledger/verify| UI
+```
+
+## Production deployment architecture
+
+```mermaid
+flowchart TB
+    subgraph Internet
+        USER[Client / Dashboard]
+    end
+    subgraph Cloud["AWS ECS/Fargate  or  Azure Container Apps"]
+        direction TB
+        ALB[ALB / Ingress<br/>TLS termination]
+        subgraph Backend["Backend (Fargate / Container App)"]
+            direction TB
+            APP[FastAPI<br/>VerityGate]
+            OTEL_SDK[OTEL SDK<br/>auto-instrumentation]
+        end
+    end
+    subgraph Data["Managed data stores"]
+        PG[(Postgres 16<br/>+ pgvector)]
+        REDIS[(Redis 7<br/>semantic cache)]
+    end
+    subgraph Observability["Observability"]
+        OTEL_COL[OTEL Collector]
+        PROM[Prometheus]
+        GRAF[Grafana]
+        LOGS[CloudWatch /<br/>Log Analytics]
+    end
+    subgraph LLMs["LLM Providers"]
+        OAI2[OpenAI API]
+        ANT2[Anthropic API]
+    end
+
+    USER -->|HTTPS| ALB --> APP
+    APP --> PG
+    APP --> REDIS
+    APP -->|httpx| OAI2 & ANT2
+    OTEL_SDK --> OTEL_COL
+    OTEL_COL --> PROM
+    PROM --> GRAF
+    APP -->|stdout/json| LOGS
+
+    classDef managed fill:#1e40af,stroke:#3b82f6,color:#fff;
+    classDef obs fill:#7c3aed,stroke:#a78bfa,color:#fff;
+    class PG,REDIS managed;
+    class OTEL_COL,PROM,GRAF,LOGS obs;
 ```
 
 ## Components

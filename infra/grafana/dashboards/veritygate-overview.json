@@ -1,0 +1,58 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "title": "Requests / min",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "rate(veritygate_requests_total[5m]) * 60", "legendFormat": "{{provider}} / {{risk_level}}" }],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
+    },
+    {
+      "title": "Gate Outcomes / min",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "rate(veritygate_gate_outcomes_total[5m]) * 60", "legendFormat": "{{status}}" }],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+    },
+    {
+      "title": "P95 Latency (ms)",
+      "type": "stat",
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "histogram_quantile(0.95, rate(veritygate_latency_ms_bucket[5m]))" }],
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 8 }
+    },
+    {
+      "title": "Cumulative Cost (USD)",
+      "type": "stat",
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "sum(veritygate_cost_usd_total)" }],
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 8 }
+    },
+    {
+      "title": "Cache Hit Rate",
+      "type": "gauge",
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "rate(veritygate_cache_hits_total[5m]) / rate(veritygate_requests_total[5m])" }],
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 8 }
+    },
+    {
+      "title": "Eval Failures / min",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "rate(veritygate_eval_failures_total[5m]) * 60", "legendFormat": "{{check}}" }],
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 8 }
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["veritygate"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "title": "VerityGate — Governance Overview",
+  "uid": "veritygate-overview"
+}
